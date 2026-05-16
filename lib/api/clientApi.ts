@@ -15,8 +15,8 @@ type CreateNoteProps = Omit<Note, 'id' | 'createdAt' | 'updatedAt'>;
 
 export async function fetchNotes(
     searchNote: string,
+    tag: string | undefined,
     page: number,
-    tag?: string
 ) {
     const res = await nextServer.get<FetchNotesResponse>('/notes', {
         params: {
@@ -39,7 +39,7 @@ export async function deleteNote(id: string): Promise<Note> {
             Accept: 'application/json',
         },
     });
-    
+
     return result.data;
 }
 
@@ -55,9 +55,9 @@ export async function createNote({ title, content, tag }: CreateNoteProps): Prom
     }
     );
 
-    return create.data;    
+    return create.data;
 }
- 
+
 export async function fetchNoteById(id: string) {
     const res = await nextServer.get<Note>(`/notes/${id}`, {
         params: {
@@ -103,7 +103,7 @@ export async function getMe() {
     return res.data;
 }
 
-export async function updateMe( username: string) {
+export async function updateMe(username: string) {
     const res = await nextServer.patch<User>("/users/me", {
         username,
     });
